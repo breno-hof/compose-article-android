@@ -8,10 +8,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,10 +29,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeArticleTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ComposeArticle(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    ComposeArticle()
                 }
             }
         }
@@ -38,26 +41,40 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ComposeArticle(modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.bg_compose_background)
+fun ComposeArticle() {
+    ArticleCard(
+        title = stringResource(R.string.jetpack_compose_tutorial_title),
+        description = stringResource(R.string.jetpack_compose_tutorial_description),
+        article = stringResource(R.string.jetpack_compose_tutorial_article),
+        painter = painterResource(R.drawable.bg_compose_background)
+    )
+}
+
+@Composable
+fun ArticleCard(
+    painter: Painter,
+    title: String,
+    description: String,
+    article: String,
+    modifier: Modifier = Modifier
+) {
     Column {
         Image(
-            painter = image,
-            null,
-            contentScale = ContentScale.FillWidth
+            painter = painter,
+            null
         )
         Text(
-            text = stringResource(R.string.jetpack_compose_tutorial_title),
+            text = title,
             modifier = modifier.padding(16.dp),
             fontSize = 24.sp
         )
         Text(
-            text = stringResource(R.string.jetpack_compose_tutorial_description),
+            text = description,
             modifier = modifier.padding(horizontal = 16.dp),
             textAlign = TextAlign.Justify
         )
         Text(
-            text = stringResource(R.string.jetpack_compose_tutorial_article),
+            text = article,
             modifier = modifier.padding(16.dp),
             textAlign = TextAlign.Justify
         )
